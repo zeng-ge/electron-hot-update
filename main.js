@@ -52,6 +52,7 @@ const onUpgrade = async () => {
     console.log('after upgrade 1')
 }
 window.onload = () => {
+    console.log('update preload')
     document.querySelector('#upgrade-btn').addEventListener('click', onUpgrade)
 }
   `, () => {})

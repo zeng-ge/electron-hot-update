@@ -27,6 +27,7 @@
     "electron": "^15.3.1"
   },
   "dependencies": {
+    "bsdiff-node": "^2.4.0",
     "electron-squirrel-startup": "^1.0.0"
   },
   "config": {

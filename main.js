@@ -3,10 +3,11 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const fs = require('fs')
 
+let mainWindow = null
 function createWindow () {
   // Create the browser window.
   console.log(path.join(__dirname, 'preload.js'))
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
     webPreferences: {
@@ -43,13 +44,25 @@ function initIPC() {
 
 function hotUpgrade() {
   const upgradeFilePath = path.join(__dirname, 'test-upgrade.js')
+  const rendererFilePath = path.join(__dirname, 'renderer.js')
+  fs.writeFileSync(rendererFilePath, `
+const onUpgrade = async () => {
+    console.log('upgrade 1')
+    await window.browser.upgrade()
+    console.log('after upgrade 1')
+}
+window.onload = () => {
+    document.querySelector('#upgrade-btn').addEventListener('click', onUpgrade)
+}
+  `, () => {})
   fs.writeFile(upgradeFilePath, 'console.log("fs write upgrade")', (error) => {
     if(error) {
       console.error(error)
     } else {
       console.log('upgrade success')
-      app.relaunch()
-      app.quit()
+      mainWindow.reload()
+      // app.relaunch()
+      // app.quit()
     }
   })
 }

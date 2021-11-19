@@ -12,4 +12,7 @@ const onUpgrade = async () => {
 }
 window.onload = () => {
     document.querySelector('#upgrade-btn').addEventListener('click', onUpgrade)
+    window.browser.getApp().then((app) => {
+        document.querySelector('#path').innerHTML = `${app.appPath};;;;${app.dirname}` 
+    })
 }

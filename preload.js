@@ -15,5 +15,6 @@ window.addEventListener('DOMContentLoaded', () => {
 const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('browser', {
-  upgrade: () => ipcRenderer.invoke('browser:upgrade')
+  upgrade: () => ipcRenderer.invoke('browser:upgrade'),
+  getApp: () => ipcRenderer.invoke('getApp')
 })
